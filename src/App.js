@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import Card from './Card';
+import Form from './Form';
 import './App.css';
+import { useState } from 'react';
+
 
 function App() {
-  return (
+const [card,setCard]= useState(false);
+const [form, setForm] = useState(null);
+const [mnsj,setMnsj] = useState(false);
+
+const handleSubmit = (info) => {
+  const {nombre, materia} = info;
+
+  if(nombre.trim().lenght < 3 || materia.lenght < 6){
+    setMnsj(true);
+    setCard(false);
+  }else{
+    setMnsj(false);
+    setCard(true);
+    setForm(info);
+  }
+};
+
+return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form onSubmit={handleSubmit}/>
+      {mnsj && <div>Por favor chequea que la información sea correcta</div>} 
+      {card && <Card nombre={form.nombre} materia={form.materia}/> }
     </div>
   );
 }
